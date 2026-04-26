@@ -1,14 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { devMode } from "../buildFlags";
-
-const navItems = [
-  { to: "/calendar", label: "Calendar", icon: "📅" },
-  { to: "/rotations", label: "Rotations", icon: "🔄" },
-  { to: "/members", label: "Members", icon: "👥" },
-  ...(devMode ? [{ to: "/gmail" as const, label: "Gmail", icon: "✉️" }] : []),
-];
+import { useConfig } from "../ConfigContext";
 
 export default function Layout() {
+  const { devMode } = useConfig();
+  const navItems = [
+    { to: "/calendar", label: "Calendar", icon: "📅" },
+    { to: "/rotations", label: "Rotations", icon: "🔄" },
+    { to: "/members", label: "Members", icon: "👥" },
+    ...(devMode ? [{ to: "/gmail" as const, label: "Gmail", icon: "✉️" }] : []),
+  ];
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-brand-700 text-white shadow-md">

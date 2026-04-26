@@ -37,6 +37,7 @@ services:
       # Host maps 80→Vite; Google must hit same origin as the app (not :5173 unless exposed)
       GMAIL_REDIRECT_URI: ${GMAIL_REDIRECT_URI:-http://localhost/api/gmail/callback}
       SESSION_SECRET: ${SESSION_SECRET:-changeme_secret_123}
+      DEV_MODE: ${DEV_MODE:-}
     depends_on:
       postgres:
         condition: service_healthy
