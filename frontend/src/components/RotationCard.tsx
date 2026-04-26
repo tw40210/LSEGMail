@@ -17,7 +17,7 @@ import { CSS } from "@dnd-kit/utilities";
 import toast from "react-hot-toast";
 import { rotationsApi } from "../api/client";
 import type { Member, Rotation, RotationMember } from "../types";
-import { devMode } from "../buildFlags";
+import { useConfig } from "../ConfigContext";
 
 interface SortableItemProps {
   rm: RotationMember;
@@ -84,6 +84,7 @@ export default function RotationCard({
   onRecalculate,
   onRefresh,
 }: Props) {
+  const { devMode } = useConfig();
   const [rotationMembers, setRotationMembers] = useState<RotationMember[]>([]);
   const [selectedMemberId, setSelectedMemberId] = useState("");
   const [saving, setSaving] = useState(false);

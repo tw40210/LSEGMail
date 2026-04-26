@@ -76,6 +76,19 @@ cd frontend
 npm install
 npm run dev
 ```
+
+## Local build
+```
+cd /mnt/SSD2/CodeHub/LSEGMail
+
+# Build backend
+cd backend && npm ci && npm run build && cd ..
+
+# Build frontend
+cd frontend && npm ci && VITE_API_BASE_URL=/api VITE_DEV_MODE= npm run build && cd ..
+```
+
+
 Frontend dev server proxies `/api` → `http://localhost:4000`.
 
 ## API Reference

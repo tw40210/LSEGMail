@@ -28,6 +28,12 @@ app.use("/gmail", gmailRouter);
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
+app.get("/config", (_req, res) => {
+  const v = process.env.DEV_MODE;
+  const devMode = v === "true" || v === "1";
+  res.json({ devMode });
+});
+
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
   startCronJobs();
