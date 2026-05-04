@@ -8,6 +8,22 @@ interface MemberForm {
   email: string;
 }
 
+function maskEmail(email: string): string {
+  const [localPart, domain = ""] = email.split("@");
+  if (!localPart || !domain) return "******";
+
+  const localVisible = localPart.slice(0, 2);
+  const localMasked = `${localVisible}${"*".repeat(Math.max(localPart.length - 2, 2))}`;
+
+  const domainParts = domain.split(".");
+  const domainName = domainParts[0] || "";
+  const tld = domainParts.slice(1).join(".");
+  const domainVisible = domainName.slice(0, 1);
+  const domainMasked = `${domainVisible}${"*".repeat(Math.max(domainName.length - 1, 2))}`;
+
+  return `${localMasked}@${tld ? `${domainMasked}.${tld}` : domainMasked}`;
+}
+
 export default function MembersPage() {
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
@@ -243,7 +259,7 @@ export default function MembersPage() {
                       <td className="px-4 py-3 font-medium text-gray-900">
                         {m.name}
                       </td>
-                      <td className="px-4 py-3 text-gray-500">{m.email}</td>
+                      <td className="px-4 py-3 text-gray-500">{maskEmail(m.email)}</td>
                       <td className="px-4 py-3 text-gray-400">
                         {new Date(m.created_at).toLocaleDateString()}
                       </td>
