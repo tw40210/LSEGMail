@@ -10,20 +10,6 @@ A full-stack web app for managing member rotation schedules with automatic Gmail
 - **Gmail integration** — connect a Gmail account via OAuth2; emails are sent automatically at 7 AM on the day of each event
 - **Customizable templates** — configure subject/body email templates with `{name}`, `{email}`, `{date}` variables
 
-## Stack
-
-| Layer     | Technology                              |
-|-----------|-----------------------------------------|
-| Frontend  | React 18 + TypeScript + Vite + Tailwind |
-| Calendar  | FullCalendar 6                          |
-| DnD       | @dnd-kit/core + @dnd-kit/sortable       |
-| Backend   | Node.js + Express + TypeScript          |
-| Database  | PostgreSQL 16                           |
-| Email     | Gmail API (OAuth2) via googleapis       |
-| Scheduler | node-cron                               |
-| Hosting   | nginx (serves React build)              |
-| Infra     | Docker Compose                          |
-
 ## Quick Start
 
 ### 1. Clone and configure
@@ -77,6 +63,15 @@ npm install
 npm run dev
 ```
 
+## Dev workflow
+1. git checkout main
+2. docker compose -f docker-compose.dev.yml up
+3. git commit {new_changes}
+4. git checkout deploy
+5. git merge main
+6. Local build
+7. git commit {new_build}
+
 ## Local build
 ```
 cd /mnt/SSD2/CodeHub/LSEGMail
@@ -88,31 +83,3 @@ cd backend && npm ci && npm run build && cd ..
 cd frontend && npm ci && VITE_API_BASE_URL=/api VITE_DEV_MODE= npm run build && cd ..
 ```
 
-
-Frontend dev server proxies `/api` → `http://localhost:4000`.
-
-## API Reference
-
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | /members | List all members |
-| POST | /members | Create member |
-| PUT | /members/:id | Update member |
-| DELETE | /members/:id | Delete member |
-| GET | /rotations | List rotations |
-| POST | /rotations | Create rotation |
-| PUT | /rotations/:id | Update rotation |
-| DELETE | /rotations/:id | Delete rotation |
-| POST | /rotations/:id/members | Add member to rotation |
-| DELETE | /rotations/:id/members/:memberId | Remove member |
-| PUT | /rotations/:id/members/reorder | Reorder members (DnD) |
-| POST | /rotations/:id/members/swap | Swap two members |
-| POST | /rotations/:id/recalculate | Regenerate events |
-| GET | /events | List events (filter by rotation_id, from, to) |
-| PUT | /events/:id | Manually edit event |
-| GET | /gmail/status | Gmail connection status |
-| GET | /gmail/auth-url | Get OAuth2 login URL |
-| GET | /gmail/callback | OAuth2 callback |
-| POST | /gmail/revoke | Disconnect Gmail |
-| PUT | /gmail/templates | Update email templates |
-| POST | /gmail/send-today | Manually trigger today's emails |
